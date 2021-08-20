@@ -7,9 +7,10 @@ import datetime
 
 import os, sys
 from PIL import Image
+from PIL import Image, ImageEnhance
 from io import BytesIO
 
-IP = "192.168.1.18"
+IP = "192.168.1.52"
 PORT = 3333
 
 from selenium import webdriver
@@ -32,8 +33,7 @@ url="https://data.pocasi-data.cz//static/html/meteogram-v2.html#x=84&y=407"
 
 chrome_options = webdriver.chrome.options.Options()
 chrome_options.add_argument("--headless")
-chrome_options.add_argument("--window-size=400,300")
-#chrome_options.add_argument("--window-size=512,384")
+chrome_options.add_argument("--window-size=800,480")
 
 DRIVER = 'chromedriver'
 driver = webdriver.Chrome(DRIVER, options=chrome_options)
@@ -44,25 +44,16 @@ driver.quit()
 
 screenshot = Image.open(BytesIO(screenshot))
 
-target = screenshot \
-    .convert(mode="L") \
-    .resize((400, 300))
+screenshot.save("preview.png")
 
-target.save("out.png")
+contrast = ImageEnhance.Contrast(screenshot)
+screenshot = contrast.enhance(50)
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # TCP
+screenshot.save("enhance.png")
 
-server_address = (IP, PORT)
-print('connecting to %s port %s' % server_address)
-sock.connect(server_address)
-print("connected")
+target = screenshot.convert('1').convert('RGB').resize((800, 480))
 
-for y in range(0,300):
-    for x in range(0,400):
-        pixel = target.getpixel((x, y))
-        b = b"\x00"
-        if pixel < 250:
-            b = b"\x01"
-        sock.send(b)
+target.save("image.png")
 
-sock.close()
+
+os.system('scp "image.png" "pi@192.168.1.118:/home/pi/epaper/python/image.png"')
