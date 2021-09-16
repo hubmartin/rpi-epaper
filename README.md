@@ -1,9 +1,47 @@
 # Raspberry PI e-paper network display
 
-Screate a screenshot of a webpage and send it over SCP to the Raspberry Pi to display on the screen or e-paper
+Create a screenshot of a webpage on your server and send it over SCP to the Raspberry Pi to display on the screen or e-paper
 
-# Usage
+## Installation
 
-Use `./display.py` file to load a webpage, create a PNG image and send it to the device IP.
-The script is using data from czech webserver for Czech Republic. You'll probably need to completely
-rewrite this script or find other weaher service which fits all data nicely on single small screen.
+```
+cd ~
+git clone https://github.com/hubmartin/rpi-epaper.git
+cd rpi-epaper
+```
+
+## Usage
+
+The project has `/server` an `/client` part/folders.
+
+Server should run on your home server, client part is run on the Raspberry Pi where your ePaper is connected.
+
+## Server
+
+Use `/server/display.py` file to load a webpage with Selenium headless web browser, create a PNG image and send it to the device IP.
+The script is using data from czech webserver for Czech Republic. You'll probably need to completely rewrite this script or find other weaher service which fits all data nicely on single small screen.
+
+You can set `crontab` to periodically every 15 minute update screen
+
+```
+crontab -e
+```
+
+Then add this line:
+
+```
+*/15 * * * * ~/rpi-epaper/server/display.py
+```
+
+## Client
+
+Client part waits for `client/image.png` to change, then it reloads picture to the epaper.
+
+For running in background you can use PM2 process manager and set `client/epaper.py` to run after boot.
+
+```
+cd ~/rpi-epaper/client
+pm2 start $(pwd)/epaper.py --name rpi-epaper-client --interpreter python3
+pm2 save
+```
+
