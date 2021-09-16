@@ -28,6 +28,7 @@ from selenium import webdriver
 #10-24 19:44:02.442 27582 27582 D b.a.a.f.b$c: [main] https://data.pocasi-data.cz//static/html/vystrahy/mapa-v5.html#orps=
 #10-24 19:44:18.637 27582 27582 D b.a.a.f.b$c: [main] https://data.pocasi-data.cz//static/html/meteogram-v2.html#x=178&y=171
 
+# pm2 start $(pwd)/epaper.py --name rpi-epaper --interpreter python3
 
 url="https://data.pocasi-data.cz//static/html/meteogram-v2.html#x=84&y=407"
 
@@ -56,4 +57,4 @@ target = screenshot.convert('1').convert('RGB').resize((800, 480))
 target.save("image.png")
 
 
-os.system('scp "image.png" "pi@192.168.1.118:/home/pi/epaper/python/image.png"')
+os.system('scp "image.png" "pi@192.168.1.119:/home/pi/epaper/python/image.png"')
