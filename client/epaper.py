@@ -5,6 +5,15 @@ import os
 import logging
 import socket
 from netifaces import interfaces, ifaddresses, AF_INET
+import hashlib
+
+from waveshare_epd import epd7in5_V2
+from waveshare_epd import epd2in9
+from waveshare_epd import epd2in9_V2
+from waveshare_epd import epd2in9b_V3
+import time
+from PIL import Image,ImageDraw,ImageFont
+import traceback
 
 from watchdog.observers import Observer
 from watchdog.events import LoggingEventHandler
@@ -14,10 +23,18 @@ from watchdog.events import FileSystemEventHandler
 
 global epd
 
+global_image_hash = ''
+
+def file_as_bytes(file):
+    with file:
+        return file.read()
+
 class Handler(FileSystemEventHandler):
-  
+
     @staticmethod
     def on_any_event(event):
+        global global_image_hash
+
         print(event)
         if event.is_directory:
             return None
@@ -27,12 +44,23 @@ class Handler(FileSystemEventHandler):
             print("Watchdog received created event - % s." % event.src_path)
             if event.src_path == "./image.png":
                 print("IMAGE!!!")
+                img_hash = hashlib.md5(file_as_bytes(open(event.src_path, 'rb'))).hexdigest()
+                print(img_hash)
+
+                # Do not redraw same image - sshcp and cp commands generate two file systems events
+                # this is here so it does not redraw twice
+                if global_image_hash == img_hash:
+                    print('Same image, do not redraw')
+                    return None
+
+                global_image_hash = img_hash
 
                 epd.init()
                 Himage = Image.open('image.png')
                 epd.display(epd.getbuffer(Himage))
                 logging.info("Goto Sleep...")
                 epd.sleep()
+
 
 # 800×480
 pathh = "."
@@ -50,14 +78,6 @@ print(libdir)
 
 if os.path.exists(libdir):
     sys.path.append(libdir)
-
-from waveshare_epd import epd7in5_V2
-from waveshare_epd import epd2in9
-from waveshare_epd import epd2in9_V2
-from waveshare_epd import epd2in9b_V3
-import time
-from PIL import Image,ImageDraw,ImageFont
-import traceback
 
 logging.basicConfig(level=logging.DEBUG)
 
