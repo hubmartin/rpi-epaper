@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<body onload="setInterval(myFunction, 100);">
+
+<div>00</div>
+
+<script>
+
+/*
+This simple page is to test when the selenium does the screenshot
+*/
+
+function myFunction() {
+  el = document.getElementsByTagName("DIV");
+  val = parseFloat(el[0].innerHTML)
+  el[0].innerHTML = val + 0.1
+}
+</script>
+
+</body>
+</html>
