@@ -4,6 +4,7 @@ import socket
 import time
 import array
 import datetime
+import time
 
 import os, sys
 from PIL import Image
@@ -32,6 +33,9 @@ from selenium import webdriver
 
 url="https://data.pocasi-data.cz//static/html/meteogram-v2.html#x=84&y=407"
 
+#To test the time when the screenshot is made after loading page use the url below and http-server tool from nodejs
+#url="http://localhost:8081/"
+
 chrome_options = webdriver.chrome.options.Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--window-size=800,480")
@@ -40,6 +44,7 @@ DRIVER = 'chromedriver'
 driver = webdriver.Chrome(DRIVER, options=chrome_options)
 #driver.set_window_size(512, 384)
 driver.get(url)
+time.sleep(5) # hack to keep page load "completely"
 screenshot = driver.get_screenshot_as_png()
 driver.quit()
 
