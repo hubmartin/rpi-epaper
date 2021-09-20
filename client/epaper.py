@@ -59,7 +59,6 @@ class Handler(FileSystemEventHandler):
                 logging.info("Goto Sleep...")
                 epd.sleep()
 
-
 # 800×480
 pathh = "."
 picdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic')
@@ -87,7 +86,6 @@ try:
     epd.init()
 
     font24 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
-    font18 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 18)
    
     Himage = Image.new('1', (epd.width, epd.height), 255)  # 255: clear the frame
     draw = ImageDraw.Draw(Himage)
@@ -117,4 +115,3 @@ except KeyboardInterrupt:
     logging.info("ctrl + c:")
     epd7in5_V2.epdconfig.module_exit()
     exit()
-

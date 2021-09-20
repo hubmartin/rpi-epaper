@@ -45,3 +45,26 @@ pm2 start $(pwd)/epaper.py --name rpi-epaper-client --interpreter python3
 pm2 save
 ```
 
+## Rpi clean install steps
+
+```
+sudo raspi-config #enable SPI
+sudo apt update
+sudo apt install git python3-pip libopenjp2-7 libtiff5
+
+pip3 install --upgrade setuptools
+sudo pip3 install netifaces Pillow watchdog
+
+git clone https://github.com/hubmartin/rpi-epaper.git
+
+# Use systemd instead of pm2 which runs slow on Rpi Zero W/arm6
+sudo cp rpi-epaper/client/epaper.service /etc/systemd/system
+sudo systemctl daemon-reload
+sudo systemctl start epaper.service
+sudo systemctl enable epaper.service
+
+#for pm2 process manager do not recommend since on Zero it is slooow
+sudo apt install nodejs npm
+sudo npm install -g npm@latest
+```
+
