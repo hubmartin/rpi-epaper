@@ -135,7 +135,7 @@ class EPD:
             self.send_command(0x71)
             epdconfig.delay_ms(100)
             iter += 1
-            if iter > 150:
+            if iter > 30:
                 logging.debug("Forced e-paper busy release")
                 break
         logging.debug("e-Paper busy release")
