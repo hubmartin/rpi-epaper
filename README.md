@@ -45,6 +45,14 @@ pm2 start $(pwd)/epaper.py --name rpi-epaper-client --interpreter python3
 pm2 save
 ```
 
+## Raspberry Pi Zero W issues with WaveShare Smart Reset
+
+WaveShare driver assumes that Python is realtime, which is not. So slow Rpi Zero sometimes does longer reset pulse and that causes power disconnect. I did some hardware modifiations. Also it wires 5 V directly to 3.3V GPIO which this hardware modification also fixes.
+
+you may be running fine, but time from time when the Python script is run as a background service (with probably lower priority) and wireless transfer the Rpi has no time to generate precise Python pulses.
+
+https://www.martinhubacek.cz/blog/waveshare-epaper-hat-issues/
+
 ## Rpi clean install steps
 
 ```
