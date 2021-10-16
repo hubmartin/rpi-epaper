@@ -70,9 +70,5 @@ sudo cp rpi-epaper/client/epaper.service /etc/systemd/system
 sudo systemctl daemon-reload
 sudo systemctl start epaper.service
 sudo systemctl enable epaper.service
-
-#for pm2 process manager do not recommend since on Zero it is slooow
-sudo apt install nodejs npm
-sudo npm install -g npm@latest
 ```
 
