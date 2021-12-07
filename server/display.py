@@ -5,10 +5,11 @@ import time
 import array
 import datetime
 import time
+import requests
+import json
 
 import os, sys
-from PIL import Image
-from PIL import Image, ImageEnhance
+from PIL import Image, ImageEnhance, ImageFont, ImageDraw
 from io import BytesIO
 
 IP = "192.168.1.52"
@@ -47,8 +48,17 @@ driver.get(url)
 time.sleep(5) # hack to keep page load "completely"
 screenshot = driver.get_screenshot_as_png()
 driver.quit()
-
+print(5)
 screenshot = Image.open(BytesIO(screenshot))
+
+image_draw = ImageDraw.Draw(screenshot) 
+font = ImageFont.truetype(r'ubuntu-font-family-0.83/Ubuntu-R.ttf', 14) 
+res = requests.get("https://svatky.vanio.cz/api/", headers={"Accept": "application/json"})
+js = json.loads(res.text)
+print(js['name'])
+image_draw.text((10, 50), js['name'], font = font, align ="left", fill="#000") 
+
+screenshot.show()
 
 screenshot.save("preview.png")
 
@@ -62,4 +72,4 @@ target = screenshot.convert('1').convert('RGB').resize((800, 480))
 target.save("image.png")
 
 
-os.system('scp "image.png" "pi@192.168.1.119:/home/pi/rpi-epaper/client/image.png"')
+#os.system('scp "image.png" "pi@192.168.1.119:/home/pi/rpi-epaper/client/image.png"')
