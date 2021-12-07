@@ -72,4 +72,5 @@ target = screenshot.convert('1').convert('RGB').resize((800, 480))
 target.save("image.png")
 
 
-#os.system('scp "image.png" "pi@192.168.1.119:/home/pi/rpi-epaper/client/image.png"')
+os.system('scp "image.png" "pi@192.168.1.122:/home/pi/rpi-epaper/client/image.png"')
+os.system('scp "image.png" "pi@192.168.1.123:/home/pi/rpi-epaper/client/image.png"')
