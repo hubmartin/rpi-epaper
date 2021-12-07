@@ -56,9 +56,7 @@ font = ImageFont.truetype(r'ubuntu-font-family-0.83/Ubuntu-R.ttf', 14)
 res = requests.get("https://svatky.vanio.cz/api/", headers={"Accept": "application/json"})
 js = json.loads(res.text)
 print(js['name'])
-image_draw.text((10, 50), js['name'], font = font, align ="left", fill="#000") 
-
-screenshot.show()
+image_draw.text((10, 120), js['name'], font = font, align ="left", fill="#000") 
 
 screenshot.save("preview.png")
 
@@ -73,4 +71,4 @@ target.save("image.png")
 
 
 os.system('scp "image.png" "pi@192.168.1.122:/home/pi/rpi-epaper/client/image.png"')
-os.system('scp "image.png" "pi@192.168.1.123:/home/pi/rpi-epaper/client/image.png"')
+#os.system('scp "image.png" "pi@192.168.1.123:/home/pi/rpi-epaper/client/image.png"')
