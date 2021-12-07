@@ -1,0 +1,12 @@
+[Unit]
+Description=Epaper service
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/rpi-epaper/client
+ExecStart=python3 epaper.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

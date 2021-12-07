@@ -8,9 +8,7 @@ from netifaces import interfaces, ifaddresses, AF_INET
 import hashlib
 
 from waveshare_epd import epd7in5_V2
-from waveshare_epd import epd2in9
-from waveshare_epd import epd2in9_V2
-from waveshare_epd import epd2in9b_V3
+
 import time
 from PIL import Image,ImageDraw,ImageFont
 import traceback
@@ -61,7 +59,6 @@ class Handler(FileSystemEventHandler):
                 logging.info("Goto Sleep...")
                 epd.sleep()
 
-
 # 800×480
 pathh = "."
 picdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic')
@@ -84,28 +81,20 @@ logging.basicConfig(level=logging.DEBUG)
 try:
     logging.info("epd7in5_V2 Demo")
     epd = epd7in5_V2.EPD()
-    #epd = epd2in9b_V3.EPD()
     
     logging.info("init")
     epd.init()
-    #epd.init(epd.lut_full_update)  #2in9
-
 
     font24 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
-    font18 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 18)
    
     Himage = Image.new('1', (epd.width, epd.height), 255)  # 255: clear the frame
     draw = ImageDraw.Draw(Himage)
     draw.text((10, 0), ips, font = font24, fill = 0)
 
-    #HRYimage = Image.new('1', (epd.height, epd.width), 255)  # 298*126  ryimage: red or yellow image  
-
-    #epd.display(epd.getbuffer(Himage),epd.getbuffer(HRYimage)))
     epd.display(epd.getbuffer(Himage))
    
     logging.info("Goto Sleep...")
     epd.sleep()
-
 
     event_handler = Handler() #LoggingEventHandler()
     observer = Observer()
@@ -126,4 +115,3 @@ except KeyboardInterrupt:
     logging.info("ctrl + c:")
     epd7in5_V2.epdconfig.module_exit()
     exit()
-
