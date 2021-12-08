@@ -48,7 +48,7 @@ driver.get(url)
 time.sleep(5) # hack to keep page load "completely"
 screenshot = driver.get_screenshot_as_png()
 driver.quit()
-print(5)
+
 screenshot = Image.open(BytesIO(screenshot))
 
 image_draw = ImageDraw.Draw(screenshot) 
