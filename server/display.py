@@ -52,7 +52,7 @@ print(5)
 screenshot = Image.open(BytesIO(screenshot))
 
 image_draw = ImageDraw.Draw(screenshot) 
-font = ImageFont.truetype(r'ubuntu-font-family-0.83/Ubuntu-R.ttf', 14) 
+font = ImageFont.truetype(r'/home/martin/rpi-epaper/server/ubuntu-font-family-0.83/Ubuntu-R.ttf', 14) 
 res = requests.get("https://svatky.vanio.cz/api/", headers={"Accept": "application/json"})
 js = json.loads(res.text)
 print(js['name'])
